@@ -1,6 +1,8 @@
 package com.company;
 
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
 
 public class TicTacToe {
     //        The game should display the “board” grid in the console
@@ -9,6 +11,7 @@ public class TicTacToe {
     //scanner
 //        The game should have the computer place their mark after a player’s turn
     //how do we control turns? random
+    //probably should have an opponent class
 //        The game should check for 3 in a row marks to declare a winner
     //what constitutes a win
     //123, 456, 789, 159, 753, 258, 369, 147
@@ -23,6 +26,10 @@ public class TicTacToe {
 
     static String[] board;
     static String turn;
+
+    public Random rand = new Random();
+    private int x;
+    Scanner scanner = new Scanner(System.in);
 
 
     // CheckWinner method will
@@ -103,4 +110,81 @@ public class TicTacToe {
         System.out.println("| " + board[6] + " | " + board[7] + " | " + board[8] + " |");
         System.out.println("|---|---|---|");
     }
+
+    public String getOpponentMove() {
+        x = rand.nextInt(10);
+        if (!(x > 0 && x <= 9 )) {
+            x = rand.nextInt(10);
+        }
+        if (board[x - 1].equals(String.valueOf(x))) {
+            board[x - 1] = turn;
+
+            if (turn.equals("O")) {
+                turn = "X";
+
+            } else {
+//                turn = "X";
+                x = rand.nextInt(10);
+            }
+            printBoard();
+        } else {
+            x = rand.nextInt(10);
+        }
+
+        return turn;
+    }
+
+    public String getPlayerMove() {
+        x = scanner.nextInt();
+        if (!(x > 0 && x <= 9)) {
+            System.out.println("Invalid input, please try again");
+
+        }
+        if (board[x - 1].equals(String.valueOf(x))) {
+            board[x - 1] = turn;
+
+            if (turn.equals("X")) {
+                turn = "O";
+
+            } else {
+                turn = "X";
+            }
+            printBoard();
+        } else {
+            System.out.println("Slot taken, try again:");
+        }
+
+        return turn;
+    }
+
+//                int slotChoice;
+//                slotChoice = scanner.nextInt();
+//                if (!(slotChoice > 0 && slotChoice <= 9)) {
+//                    System.out.println("Invalid input, please try again");
+//                    continue;
+//
+//                }
+//                if (board[slotChoice - 1].equals(String.valueOf(slotChoice))) {
+//                    board[slotChoice - 1] = turn;
+//
+//                    if (turn.equals("X")) {
+//                        turn = "O";
+//
+//                    } else {
+//                        turn = "X";
+//                    }
+//                    printBoard();
+//                    winner = checkWinner();
+//                } else {
+//                    System.out.println("Slot taken, try again:");
+//                }
+////        }
+//        if (winner.equalsIgnoreCase("draw")) {
+//            System.out.println("Its a draw! Thanks for playing.");
+////            playAgain = true;
+//            winner = null;
+//        } else {
+//            System.out.println("Congratulations! " + winner + "'s won!");
+////            playAgain = true;
+//            winner = null;
 }

@@ -9,47 +9,75 @@ import static com.company.TicTacToe.*;
 public class Main {
 
     public static void main(String[] args) {
-//        Create a new project in IntelliJ
+
         TicTacToe newGame = new TicTacToe();
         Scanner scanner = new Scanner(System.in);
         board = new String[9];
         turn = "X";
         String winner = null;
-        for (int a = 0; a < 9; a++) {
-            board[a] = String.valueOf(a + 1);
-        }
+        boolean playAgain = true;
+        int wins = 0;
+        int losses = 0;
+        int ties = 0;
 
-        System.out.println("Welcome to Tic Tac Toe");
 
-        newGame.printBoard();
-        System.out.println("X will play first. Enter a slot number to place X in:");
+        while (playAgain) {
+            int input;
+            System.out.println("Welcome to Tic Tac Toe. Enter 1) to Play 2) to Quit.");
 
-        while (winner == null) {
-            int slotChoice;
-            slotChoice = scanner.nextInt();
-            if (!(slotChoice > 0 && slotChoice <= 9)) {
-                System.out.println("Invalid input, please try again");
-                continue;
+            input = scanner.nextInt();
+            if (input == 1) {
 
-            }
-            if (board[slotChoice - 1].equals(String.valueOf(slotChoice))) {
-                board[slotChoice - 1] = turn;
-
-                if (turn.equals("X")) {
-                    turn = "O";
-                } else {
-                    turn = "X";
-                }
-                printBoard();
-                winner = checkWinner();
+            } else if (input == 2) {
+                System.out.println("Thanks for playing.");
+                break;
             } else {
-                System.out.println("Slot taken, try again:");
+                System.out.println("Invalid, 1) to play or 2) to Quit");
+                input = scanner.nextInt();
             }
-        }
-        if(winner.equalsIgnoreCase("draw")) {
-            System.out.println("Its a draw! Thanks for playing.");
-        } else {
-            System.out.println("Congratulations! " + winner + "'s won!");
+
+
+            for (int a = 0; a < 9; a++) {
+                board[a] = String.valueOf(a + 1);
+            }
+
+
+            newGame.printBoard();
+            System.out.println("X will play first. Enter a slot number to place X in:");
+
+            while (winner == null) {
+                newGame.getPlayerMove();
+                winner = checkWinner();
+                newGame.getOpponentMove();
+                checkWinner();
+
+            }
+            if (winner.equalsIgnoreCase("draw")) {
+                System.out.println("Its a draw! Thanks for playing.");
+
+                ties++;
+                System.out.println("Wins: " + wins + " | Losses: " + losses + " | Ties: " + ties);
+                playAgain = true;
+                winner = null;
+
+            } else if (winner.equalsIgnoreCase("x")) {
+                System.out.println("Congratulations! " + winner + "'s won!");
+
+                wins++;
+                System.out.println("Wins: " + wins + " | Losses: " + losses + " | Ties: " + ties);
+                playAgain = true;
+                winner = null;
+
+            } else{
+                if (winner.equalsIgnoreCase("o")) {
+                    System.out.println("Bummer! You lost");
+
+                    losses++;
+                    System.out.println("Wins: " + wins + " | Losses: " + losses + " | Ties: " + ties);
+                    playAgain = true;
+                    winner = null;
+                }
+            }
         }
     }
 }
